@@ -1,0 +1,1 @@
+ubuntudesign-asset-mapper==0.3
