@@ -10,8 +10,12 @@ Then to upload an asset:
 
 ``` bash
 $ ./upload-asset.py  \
-    --server-url https://assets.EXAMPLE.com/v1/  \
-    --auth-token XXXXXXXX  \
-    MY-IMAGE.png
-{'url': u'https://assets.EXAMPLE.com/v1/xxxxx-MY-IMAGE.png', 'image': True, 'created': u'Tue Sep 27 16:13:22 2016', 'file_path': u'xxxxx-MY-IMAGE.png', 'tags': u''}
+    --api-url https://assets.EXAMPLE.com/v1/  \
+    --api-token XXXXXXXX  \
+    ~/EXAMPLE_DIRECTORY ./EXAMPLE_IMAGE.png
+[
+    {"url": "https://assets.ubuntu.com/v1/2071d161-EXAMPLE_IMAGE.png", "filepath": "/home/robin/EXAMPLE_IMAGE.png"},
+    {"url": "https://assets.ubuntu.com/v1/2071d161-IMAGE1.png", "filepath": "/home/robin/EXAMPLE_DIRECTORY/IMAGE1.png"},
+    {"url": "https://assets.ubuntu.com/v1/2071d161-IMAGE2.png", "filepath": "/home/robin/EXAMPLE_DIRECTORY/IMAGE2.png"}
+]
 ```
