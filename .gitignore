@@ -2,4 +2,7 @@ parts/
 prime/
 stage/
 *.snap
-
+*.egg-info/
+dist/
+env/
+env3/
