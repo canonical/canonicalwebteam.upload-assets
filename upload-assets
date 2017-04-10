@@ -7,16 +7,24 @@ import os
 # Local packages
 from canonicalwebteam.upload_assets.uploader import gather_files, upload_files
 
-api_base_url = os.environ.get('API_BASE_URL', 'https://assets.ubuntu.com/v1/')
+api_domain = os.environ.get('UPLOAD_ASSETS_API_DOMAIN', 'assets.ubuntu.com')
 api_secret_token = os.environ.get('UPLOAD_ASSETS_API_TOKEN')
 
 parser = argparse.ArgumentParser(
     description='Upload assets from this directory'
 )
 parser.add_argument(
-    '-u', '--api-url',
-    help='The API base URL',
-    default=api_base_url
+    '-d', '--api-domain',
+    help='The domain for the API (https://<domain>}/v1/)',
+    default=api_domain
+)
+parser.add_argument(
+    '-i', '--insecure',
+    help=(
+        'Communicate with the API over HTTP rather than HTTPS.'
+        'For use in development only.'
+    ),
+    action="store_true"
 )
 parser.add_argument(
     '-s', '--api-token',
@@ -43,8 +51,9 @@ cli_arguments = vars(parser.parse_args())
 files = gather_files(cli_arguments['upload_paths'])
 upload_files(
     files,
-    api_url=cli_arguments['api_url'],
+    api_domain=cli_arguments['api_domain'],
     api_token=cli_arguments['api_token'],
     tags=cli_arguments['tags'],
-    url_path=cli_arguments['url_path']
+    url_path=cli_arguments['url_path'],
+    insecure=cli_arguments['insecure']
 )

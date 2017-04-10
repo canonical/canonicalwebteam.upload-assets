@@ -34,13 +34,14 @@ You should now have access to the ``upload-assets``\ command:
     ]
 
 Configuration
----
+-------------
 
 To avoid specifying them every time, you can store both the URL and the token
 for the assets API in environment variables:
 
 .. code:: bash
 
-    $ export API_BASE_URL=https://<api-domain>/v1/
     $ export UPLOAD_ASSETS_API_TOKEN=<api-token>
+    $ export UPLOAD_ASSETS_API_DOMAIN=https://assets.example.com/v1/
     $ upload-assets EXAMPLE_IMAGE.png
+

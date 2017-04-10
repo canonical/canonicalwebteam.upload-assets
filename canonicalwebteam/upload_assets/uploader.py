@@ -14,14 +14,18 @@ import requests
 
 
 def _upload_file(
-    filepath, api_url, api_token,
-    tags=None, url_path=None, error_on_exists=False
+    filepath, api_domain, api_token,
+    tags=None, url_path=None, error_on_exists=False, insecure=False
 ):
     """
     Upload an individual file to an assets.ubuntu.com-like assets server
     """
 
     filename = os.path.basename(filepath)
+    api_url = "{scheme}://{domain}/v1/".format(
+        scheme="http" if insecure else "https",
+        domain=api_domain
+    )
 
     with open(filepath, 'rb') as asset_file:
         content = asset_file.read()
@@ -115,7 +119,10 @@ def gather_files(paths):
     return filepaths
 
 
-def upload_files(filepaths, api_url, api_token, tags=None, url_path=None):
+def upload_files(
+    filepaths, api_domain, api_token,
+    tags=None, url_path=None, insecure=False
+):
     """
     Upload all the provided files to
     an assets.ubuntu.com-like assets server
@@ -152,7 +159,8 @@ def upload_files(filepaths, api_url, api_token, tags=None, url_path=None):
             sys.exit(1)
 
         response = _upload_file(
-            filepath, api_url, api_token, tags, url_path, error_on_exists=True
+            filepath, api_domain, api_token, tags,
+            url_path, error_on_exists=True
         )
 
         print("[" + json.dumps(response) + "]")
@@ -160,26 +168,26 @@ def upload_files(filepaths, api_url, api_token, tags=None, url_path=None):
     else:
         if len(filepaths) == 1:
             item_info = _upload_file(
-                filepaths[-1], api_url, api_token, tags, url_path
+                filepaths[-1], api_domain, api_token, tags, url_path
             )
             print('[' + json.dumps(item_info) + ']')
         else:
             # Do the first item
             first_item_info = _upload_file(
-                filepaths[0], api_url, api_token, tags, url_path
+                filepaths[0], api_domain, api_token, tags, url_path
             )
             print('[\n  ' + json.dumps(first_item_info))
 
             # Do all but the last item
             for filepath in filepaths[1:-1]:
                 item_info = _upload_file(
-                    filepath, api_url, api_token, tags, url_path
+                    filepath, api_domain, api_token, tags, url_path
                 )
                 print('  ' + json.dumps(item_info) + ',')
                 sys.stdout.flush()
 
             # Do the last item
             last_item_info = _upload_file(
-                filepaths[-1], api_url, api_token, tags, url_path
+                filepaths[-1], api_domain, api_token, tags, url_path
             )
             print('  ' + json.dumps(last_item_info) + '\n]')
