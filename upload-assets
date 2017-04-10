@@ -8,7 +8,7 @@ import os
 from canonicalwebteam.upload_assets.uploader import gather_files, upload_files
 
 api_base_url = os.environ.get('API_BASE_URL', 'https://assets.ubuntu.com/v1/')
-api_secret_token = os.environ.get('API_SECRET_TOKEN')
+api_secret_token = os.environ.get('UPLOAD_ASSETS_API_TOKEN')
 
 parser = argparse.ArgumentParser(
     description='Upload assets from this directory'
@@ -30,7 +30,8 @@ parser.add_argument(
 )
 parser.add_argument(
     '-t', '--tags',
-    help='Tags for uploaded assets', default='auto-upload'
+    help='Tags for uploaded assets',
+    default='auto-upload'
 )
 parser.add_argument(
     'upload_paths',
