@@ -32,3 +32,15 @@ You should now have access to the ``upload-assets``\ command:
         {"url": "https://assets.ubuntu.com/v1/2071d161-IMAGE1.png", "filepath": "/home/robin/EXAMPLE_DIRECTORY/IMAGE1.png"},
         {"url": "https://assets.ubuntu.com/v1/2071d161-IMAGE2.png", "filepath": "/home/robin/EXAMPLE_DIRECTORY/IMAGE2.png"}
     ]
+
+Configuration
+---
+
+To avoid specifying them every time, you can store both the URL and the token
+for the assets API in environment variables:
+
+.. code:: bash
+
+    $ export API_BASE_URL=https://<api-domain>/v1/
+    $ export UPLOAD_ASSETS_API_TOKEN=<api-token>
+    $ upload-assets EXAMPLE_IMAGE.png
