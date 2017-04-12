@@ -13,7 +13,7 @@ assert sys.version_info >= (3, 5), (
 
 setup(
     name='canonicalwebteam.upload-assets',
-    version='0.1.0',
+    version='0.1.1',
     author='Canonical webteam',
     author_email='robin+pypi@canonical.com',
     url='https://github.com/canonical-webteam/upload-assets',

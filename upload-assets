@@ -3,6 +3,8 @@
 # Core packages
 import argparse
 import os
+import pkg_resources
+import sys
 
 # Local packages
 from canonicalwebteam.upload_assets.uploader import gather_files, upload_files
@@ -29,7 +31,6 @@ parser.add_argument(
 parser.add_argument(
     '-s', '--api-token',
     help='The secret authentication token for the API',
-    required=not bool(api_secret_token),
     default=api_secret_token
 )
 parser.add_argument(
@@ -42,11 +43,29 @@ parser.add_argument(
     default='auto-upload'
 )
 parser.add_argument(
+    '-v', '--version',
+    action='store_true',
+    help="Show the currently installed version of documentation-builder."
+)
+parser.add_argument(
     'upload_paths',
     help='A list of paths to files or directories to upload',
-    nargs='+'
+    nargs='*'
 )
 cli_arguments = vars(parser.parse_args())
+
+if cli_arguments['version']:
+    print(
+        pkg_resources.get_distribution(
+            "canonicalwebteam.upload-assets"
+        ).version
+    )
+    sys.exit()
+elif not bool(api_secret_token):
+    print(
+        "Error: API secret token required (--api-token|-s)"
+    )
+    sys.exit(1)
 
 files = gather_files(cli_arguments['upload_paths'])
 upload_files(
