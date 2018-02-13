@@ -11,7 +11,7 @@ Installation
 Snap install
 ~~~~~~~~~~~~
 
-On a `snap <https://snapcraft.io/>`-enabled system, you can simply:
+On a `snap <https://snapcraft.io/>`__-enabled system, you can simply:
 
 .. code:: bash
 
