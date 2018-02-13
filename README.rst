@@ -8,6 +8,20 @@ server <https://github.com/ubuntudesign/assets-server>`__.
 Installation
 ------------
 
+Snap install
+~~~~~~~~~~~~
+
+On a `snap <https://snapcraft.io/>`__-enabled system, you can simply:
+
+.. code:: bash
+
+    sudo snap install upload-assets
+
+Pip install
+~~~~~~~~~~~
+
+If you can't install the snap, you can install with pip.
+
 First `install python3
 pip <http://stackoverflow.com/questions/6587507/how-to-install-pip-with-python-3>`__,
 then:
