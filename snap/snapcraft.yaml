@@ -1,4 +1,5 @@
 name: upload-assets
+base: core18
 version: '0.2.0'
 summary: A command-line tool for managing the assets server
 description: |
