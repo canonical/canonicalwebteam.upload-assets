@@ -20,9 +20,8 @@ def _upload_file(
     """
     Upload an individual file to an assets.ubuntu.com-like assets server
     """
-
     filename = os.path.basename(filepath)
-    api_url = "{scheme}://{domain}/v1/".format(
+    api_url = "{scheme}://{domain}".format(
         scheme="http" if insecure else "https",
         domain=api_domain
     )
@@ -38,8 +37,8 @@ def _upload_file(
             'url-path': url_path,
             'tags': tags,
             'type': 'base64',
-            'token': api_token
-        }
+        },
+        headers={"Authorization": f"token {api_token}"}
     )
 
     if error_on_exists or response.status_code != 409:
@@ -160,7 +159,7 @@ def upload_files(
 
         response = _upload_file(
             filepath, api_domain, api_token, tags,
-            url_path, error_on_exists=True
+            url_path, error_on_exists=True, insecure=insecure
         )
 
         print("[" + json.dumps(response) + "]")
@@ -168,26 +167,26 @@ def upload_files(
     else:
         if len(filepaths) == 1:
             item_info = _upload_file(
-                filepaths[-1], api_domain, api_token, tags, url_path
+                filepaths[-1], api_domain, api_token, tags, url_path, insecure=insecure
             )
             print('[' + json.dumps(item_info) + ']')
         else:
             # Do the first item
             first_item_info = _upload_file(
-                filepaths[0], api_domain, api_token, tags, url_path
+                filepaths[0], api_domain, api_token, tags, url_path, insecure=insecure
             )
             print('[\n  ' + json.dumps(first_item_info))
 
             # Do all but the last item
             for filepath in filepaths[1:-1]:
                 item_info = _upload_file(
-                    filepath, api_domain, api_token, tags, url_path
+                    filepath, api_domain, api_token, tags, url_path, insecure=insecure
                 )
                 print('  ' + json.dumps(item_info) + ',')
                 sys.stdout.flush()
 
             # Do the last item
             last_item_info = _upload_file(
-                filepaths[-1], api_domain, api_token, tags, url_path
+                filepaths[-1], api_domain, api_token, tags, url_path, insecure=insecure
             )
             print('  ' + json.dumps(last_item_info) + '\n]')
