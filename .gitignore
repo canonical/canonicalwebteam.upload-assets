@@ -8,3 +8,4 @@ env/
 env3/
 __pycache__/
 snap/.snapcraft
+build/
