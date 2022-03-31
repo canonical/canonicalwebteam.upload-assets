@@ -29,7 +29,7 @@ You should now have access to the `upload-assets` command:
 
 ``` bash
 $ upload-assets  \
-    --api-url https://assets.EXAMPLE.com/v1/  \
+    --api-domain assets.EXAMPLE.com  \
     --api-token XXXXXXXX  \
     ~/EXAMPLE_DIRECTORY ./EXAMPLE_IMAGE.png
 [
@@ -45,6 +45,6 @@ To avoid specifying them every time, you can store both the URL and the token fo
 
 ``` bash
 $ export UPLOAD_ASSETS_API_TOKEN=<api-token>
-$ export UPLOAD_ASSETS_API_DOMAIN=https://assets.example.com/v1/
+$ export UPLOAD_ASSETS_API_DOMAIN=assets.example.com
 $ upload-assets EXAMPLE_IMAGE.png
 ```
