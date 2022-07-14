@@ -17,7 +17,7 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument(
     '-d', '--api-domain',
-    help='The domain for the API (https://<domain>}/v1/)',
+    help=f'The domain for the API. Default: {api_domain}.',
     default=api_domain
 )
 parser.add_argument(
