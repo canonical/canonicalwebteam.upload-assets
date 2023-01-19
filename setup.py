@@ -13,7 +13,7 @@ assert sys.version_info >= (3, 5), "upload-assets requires Python 3.5 or newer"
 
 setup(
     name="canonicalwebteam.upload-assets",
-    version="0.2.1",
+    version="0.3.0",
     author="Canonical webteam",
     author_email="robin+pypi@canonical.com",
     url="https://github.com/canonical-web-and-design/upload-assets",
