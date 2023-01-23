@@ -22,7 +22,7 @@ def _upload_file(
     """
 
     filename = os.path.basename(filepath)
-    api_url = "{scheme}://{domain}/v1/".format(
+    api_url = "{scheme}://{domain}/v1".format(
         scheme="http" if insecure else "https",
         domain=api_domain
     )
@@ -73,7 +73,7 @@ def _upload_file(
                 print(
                     (
                         "Error: Bad gateway. Check the API endpoint, "
-                        "e.g. 'https://assets.ubuntu.com/v1/'"
+                        "e.g. 'https://assets.ubuntu.com/v1'"
                     ),
                     file=sys.stderr
                 )
