@@ -49,11 +49,9 @@ def _upload_file(
         requests.exceptions.HTTPError,
         requests.exceptions.JSONDecodeError,
     ) as request_error:
-        if request_error.response.status_code == 409 and error_on_exists:
+        if request_error.response.status_code == 409:
             print(
-                "Error: URL path already exists: {url}".format(
-                    url=os.path.join(api_url, url_path)
-                ),
+                f"Error: URL path already exists: {url_path}",
                 file=sys.stderr,
             )
             sys.exit(1)
