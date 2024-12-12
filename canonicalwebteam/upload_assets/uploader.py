@@ -4,9 +4,9 @@ Functions for uploading files to an assets.ubuntu.com-like assets server
 
 # Core packages
 import base64
+import glob
 import json
 import os
-import glob
 import sys
 
 # Third party packages
@@ -42,46 +42,39 @@ def _upload_file(
         }
     )
 
-    if error_on_exists or response.status_code != 409:
-        try:
-            response.raise_for_status()
-        except requests.exceptions.HTTPError as request_error:
-            if request_error.response.status_code == 409:
-                if error_on_exists:
-                    print(
-                        "Error: URL path already exists: {url}".format(
-                            url=os.path.join(
-                                api_url,
-                                url_path
-                            )
-                        ),
-                        file=sys.stderr
-                    )
-                    sys.exit(1)
-                else:
-                    pass
-            elif request_error.response.status_code == 403:
-                print(
-                    (
-                        "Error: Permission denied. "
-                        "Did you provide a valid API token?"
-                    ),
-                    file=sys.stderr
-                )
-                sys.exit(1)
-            elif request_error.response.status_code == 502:
-                print(
-                    (
-                        "Error: Bad gateway. Check the API endpoint, "
-                        "e.g. 'https://assets.ubuntu.com/v1'"
-                    ),
-                    file=sys.stderr
-                )
-                sys.exit(1)
-            else:
-                raise request_error
+    try:
+        response.raise_for_status()
+        asset_info = response.json()
+    except (
+        requests.exceptions.HTTPError,
+        requests.exceptions.JSONDecodeError,
+    ) as request_error:
+        if request_error.response.status_code == 409 and error_on_exists:
+            print(
+                "Error: URL path already exists: {url}".format(
+                    url=os.path.join(api_url, url_path)
+                ),
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        elif request_error.response.status_code == 403:
+            print(
+                ("Error: Permission denied. " "Did you provide a valid API token?"),
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        elif request_error.response.status_code == 502:
+            print(
+                (
+                    "Error: Bad gateway. Check the API endpoint, "
+                    "e.g. 'https://assets.ubuntu.com/v1'"
+                ),
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        else:
+            raise request_error
 
-    asset_info = response.json()
 
     return {
         'local_filepath': filepath,
