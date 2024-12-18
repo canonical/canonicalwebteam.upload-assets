@@ -23,14 +23,34 @@ First [install python3 pip](http://stackoverflow.com/questions/6587507/how-to-in
 sudo pip3 install canonicalwebteam.upload-assets
 ```
 
+### Manual Install from this repo
+
+1. Create a virtual environment and activate it
+
+``` bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+2. Install local pip packages
+
+``` bash
+pip install .
+```
+
+3. Install pip packages from requirements
+
+``` bash
+pip install -r requirements.txt
+```
+
 ## Usage
 
 You should now have access to the `upload-assets` command:
 
 ``` bash
-$ upload-assets  \
-    --api-domain assets.EXAMPLE.com  \
-    --api-token XXXXXXXX  \
+$ UPLOAD_ASSETS_API_TOKEN=XXXXXXXX upload-assets  \
+    -d assets.EXAMPLE.com  \
     ~/EXAMPLE_DIRECTORY ./EXAMPLE_IMAGE.png
 [
     {"url": "https://assets.ubuntu.com/v1/2071d161-EXAMPLE_IMAGE.png", "filepath": "/home/robin/EXAMPLE_IMAGE.png"},
