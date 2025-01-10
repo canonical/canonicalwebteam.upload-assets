@@ -7,6 +7,7 @@ import base64
 import glob
 import json
 import os
+import re
 import sys
 
 # Third party packages
@@ -50,8 +51,14 @@ def _upload_file(
         requests.exceptions.JSONDecodeError,
     ) as request_error:
         if request_error.response.status_code == 409:
+            # Try to get the remote file path, or return the filename
+            match = re.search(r'.*<p>(.*)</p>', response.text)
+            if match:
+                file_url = f"{response.url}/{match.group(1)}"
+            else:
+                file_url = filename
             print(
-                f"Error: URL path already exists: {url_path}",
+                f"Error: This file has already been uploaded: {file_url}",
                 file=sys.stderr,
             )
             sys.exit(1)
