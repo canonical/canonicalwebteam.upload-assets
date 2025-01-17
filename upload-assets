@@ -61,7 +61,7 @@ if cli_arguments['version']:
         ).version
     )
     sys.exit()
-elif not bool(api_secret_token):
+elif not cli_arguments['api_token'] and not bool(api_secret_token):
     print(
         "Error: API secret token required (--api-token|-s)"
     )
