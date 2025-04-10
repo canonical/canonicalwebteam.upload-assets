@@ -3,76 +3,136 @@
 # Core packages
 import argparse
 import os
-import pkg_resources
 import sys
 
-# Local packages
-from canonicalwebteam.upload_assets.uploader import gather_files, upload_files
+import pkg_resources
 
-api_domain = os.environ.get('UPLOAD_ASSETS_API_DOMAIN', 'assets.ubuntu.com')
-api_secret_token = os.environ.get('UPLOAD_ASSETS_API_TOKEN')
+# Local packages
+from canonicalwebteam.upload_assets.uploader import (
+    gather_files,
+    upload_files,
+)
+
+api_domain = os.environ.get("UPLOAD_ASSETS_API_DOMAIN", "assets.ubuntu.com")
+api_secret_token = os.environ.get("UPLOAD_ASSETS_API_TOKEN")
 
 parser = argparse.ArgumentParser(
-    description='Upload assets from this directory'
+    description="Upload assets from this directory.",
 )
 parser.add_argument(
-    '-d', '--api-domain',
-    help=f'The domain for the API. Default: {api_domain}.',
-    default=api_domain
+    "-d",
+    "--api-domain",
+    help=f"The domain for the API. Default: {api_domain}.",
+    default=api_domain,
 )
 parser.add_argument(
-    '-i', '--insecure',
+    "-i",
+    "--insecure",
     help=(
-        'Communicate with the API over HTTP rather than HTTPS.'
-        'For use in development only.'
+        "Communicate with the API over HTTP rather than HTTPS. "
+        "For use in development only."
     ),
-    action="store_true"
+    action="store_true",
 )
 parser.add_argument(
-    '-s', '--api-token',
-    help='The secret authentication token for the API',
-    default=api_secret_token
+    "-s",
+    "--api-token",
+    help="The secret authentication token for the API",
+    default=api_secret_token,
 )
 parser.add_argument(
-    '-p', '--url-path',
-    help='The URL path to upload the file to'
+    "-p",
+    "--url-path",
+    help="The URL path of the uploaded file",
 )
 parser.add_argument(
-    '-t', '--tags',
-    help='Tags for uploaded assets',
-    default='auto-upload'
+    "-t",
+    "--tags",
+    type=str,
+    help="Comma delimited list of tags for uploaded assets",
+    default="auto-upload",
 )
 parser.add_argument(
-    '-v', '--version',
-    action='store_true',
-    help="Show the currently installed version of documentation-builder."
+    "-v",
+    "--version",
+    action="store_true",
+    help="Show the currently installed version of documentation-builder.",
 )
 parser.add_argument(
-    'upload_paths',
-    help='A list of paths to files or directories to upload',
-    nargs='*'
+    "upload_paths",
+    help="A list of paths to files or directories to upload",
+    nargs="*",
+)
+parser.add_argument(
+    "--asset-type",
+    help="Type of the asset being uploaded",
+    default="image",
+)
+parser.add_argument(
+    "--optimize",
+    help="Optimize images. default=1",
+    default=1,
+)
+parser.add_argument(
+    "--products",
+    help="Comma delimited list of products associated with the asset",
+    default="",
+)
+parser.add_argument(
+    "--author",
+    help="Email address of the asset Author",
+    default="",
+)
+parser.add_argument(
+    "--google-drive-link",
+    help="Google Drive link to the asset",
+    default="",
+)
+parser.add_argument(
+    "--salesforce-campaign-id",
+    help="Salesforce campaign ID associated with the asset",
+    default="",
+)
+parser.add_argument(
+    "--language",
+    help="The language associated with the asset",
+    default="",
+)
+parser.add_argument(
+    "--deprecated",
+    help="Whether the asset is deprecated",
+    action="store_true",
 )
 cli_arguments = vars(parser.parse_args())
 
-if cli_arguments['version']:
+if cli_arguments["version"]:
     print(
         pkg_resources.get_distribution(
-            "canonicalwebteam.upload-assets"
-        ).version
+            "canonicalwebteam.upload-assets",
+        ).version,
     )
     sys.exit()
-elif not cli_arguments['api_token'] and not bool(api_secret_token):
+elif not cli_arguments["api_token"] and not bool(api_secret_token):
     print(
-        "Error: API secret token required (--api-token|-s)"
+        "Error: API secret token required (--api-token|-s)",
     )
     sys.exit(1)
 
-files = gather_files(cli_arguments['upload_paths'])
+files = gather_files(cli_arguments["upload_paths"])
+
 upload_files(
     files,
-    api_domain=cli_arguments['api_domain'],
-    api_token=cli_arguments['api_token'],
-    tags=cli_arguments['tags'],
-    url_path=cli_arguments['url_path'],
-    insecure=cli_arguments['insecure']
+    api_domain=cli_arguments["api_domain"],
+    api_token=cli_arguments["api_token"],
+    tags=cli_arguments["tags"],
+    url_path=cli_arguments["url_path"],
+    insecure=cli_arguments["insecure"],
+    asset_type=cli_arguments["asset_type"],
+    optimize=cli_arguments["optimize"],
+    products=cli_arguments["products"],
+    author=cli_arguments["author"],
+    google_drive_link=cli_arguments["google_drive_link"],
+    salesforce_campaign_id=cli_arguments["salesforce_campaign_id"],
+    language=cli_arguments["language"],
+    deprecated=cli_arguments["deprecated"],
 )
