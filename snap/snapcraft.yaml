@@ -1,9 +1,9 @@
 name: upload-assets
-base: core18
-version: '0.3.0'
+base: core22
+version: "0.4.0"
 summary: A command-line tool for managing the assets server
 description: |
-  This is intended to be a simple command-line tool for uploading assets 
+  This is intended to be a simple command-line tool for uploading assets
   to an https://assets.ubuntu.com-like assets server.
 
 grade: stable
@@ -13,10 +13,12 @@ parts:
   repo:
     plugin: python
     source: .
+    python-requirements:
+      - requirements.txt
 
 apps:
   upload-assets:
-    command: upload-assets
+    command: /bin/upload-assets
     plugs:
       - home
       - network-bind
