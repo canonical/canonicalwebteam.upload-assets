@@ -57,6 +57,7 @@ def _upload_file(
             "asset-type": asset_type,
             "author": author,
             "friendly-name": filename,
+            "url-path": url_path,
         }
 
         # Prepare the file for upload
