@@ -18,7 +18,7 @@ parts:
 
 apps:
   upload-assets:
-    command: /bin/upload-assets
+    command: bin/upload-assets
     plugs:
       - home
       - network-bind
